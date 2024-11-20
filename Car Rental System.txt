@@ -1,0 +1,143 @@
+#include <iostream>
+#include <fstream>
+#include <unistd.h>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+// Function prototype for login
+int login();
+
+class Customer {
+public:
+    string customername;
+    string carmodel;
+    string carnumber;
+};
+
+class Rent : public Customer {
+public:
+    int days = 0, rentalfee = 0;
+
+    void data() {
+        login(); // Call the login function
+        cout << "\tPlease Enter your Name: ";
+        cin >> customername;
+
+        do {
+            cout << "\t======== Car Rental System ========\n\n";
+            cout << "\tPlease Select a Car\n";
+            cout << "\tEnter 'A' for Tesla 2023.\n";
+            cout << "\tEnter 'B' for Hyundai 2020.\n";
+            cout << "\tEnter 'C' for Ford 2022.\n";
+            cout << "\tChoose a Car from the above options: ";
+            cin >> carmodel;
+
+            if (carmodel == "A") {
+                system("clear");
+                cout << "You have chosen Tesla model 2023\n";
+                ifstream inA("A.txt");
+                char str[200];
+                while (inA) {
+                    inA.getline(str, 200);
+                    if (inA) cout << str << endl;
+                }
+                sleep(2);
+            } else if (carmodel == "B") {
+                system("clear");
+                cout << "You have chosen Hyundai model 2020\n";
+                ifstream inB("B.txt");
+                char str[200];
+                while (inB) {
+                    inB.getline(str, 200);
+                    if (inB) cout << str << endl;
+                }
+                sleep(2);
+            } else if (carmodel == "C") {
+                system("clear");
+                cout << "You have chosen Ford model 2022\n";
+                ifstream inC("C.txt");
+                char str[200];
+                while (inC) {
+                    inC.getline(str, 200);
+                    if (inC) cout << str << endl;
+                }
+                sleep(2);
+            } else {
+                cout << "Invalid Car Model. Please try again!\n";
+            }
+        } while (carmodel != "A" && carmodel != "B" && carmodel != "C");
+
+        cout << "Please select a Car No.: ";
+        cin >> carnumber;
+        cout << "Number of days you wish to rent the car: ";
+        cin >> days;
+    }
+
+    void calculate() {
+        sleep(1);
+        system("clear");
+        if (carmodel == "A" || carmodel == "a")
+            rentalfee = days * 56;
+        if (carmodel == "B" || carmodel == "b")
+            rentalfee = days * 60;
+        if (carmodel == "C" || carmodel == "c")
+            rentalfee = days * 75;
+    }
+
+    void showrent() {
+        cout << "\n                       Car Rental - Customer Invoice\n";
+        cout << "	///////////////////////////////////////////////////////////\n";
+        cout << "	| Invoice No. :" << setw(10) << "#BnC92243" << " |\n";
+        cout << "	| Customer Name:" << setw(10) << customername << " |\n";
+        cout << "	| Car Model :" << setw(10) << carmodel << " |\n";
+        cout << "	| Car No. :" << setw(10) << carnumber << " |\n";
+        cout << "	| Number of days :" << setw(10) << days << " |\n";
+        cout << "	| Your Rental Amount is :" << setw(10) << rentalfee << " |\n";
+        cout << "	| Total Rental Amount is :" << setw(10) << rentalfee << " |\n";
+        system("clear");
+
+        ifstream inf("thanks.txt");
+        char str[300];
+        while (inf) {
+            inf.getline(str, 300);
+            if (inf) cout << str << endl;
+        }
+        inf.close();
+    }
+};
+
+class Welcome {
+public:
+    void display() {
+        ifstream in("welcome.txt");
+        char str[1000];
+        while (in) {
+            in.getline(str, 1000);
+            if (in) cout << str << endl;
+        }
+        in.close();
+        sleep(1);
+        system("clear");
+    }
+};
+
+int login() {
+    cout << "\n\n\tCAR RENTAL SYSTEM\n";
+    cout << "\t------------------------------\n";
+    cout << "\tPress Enter to continue...";
+    cin.ignore();
+    cin.get();
+    return 0;
+}
+
+int main() {
+    Welcome welcomeObj;
+    welcomeObj.display();
+    Rent rentObj;
+    rentObj.data();
+    rentObj.calculate();
+    rentObj.showrent();
+    return 0;
+}
